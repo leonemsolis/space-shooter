@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] GameObject hazard;
+    [SerializeField] GameObject asteroidPrefab;
+    [SerializeField] List<LevelInfo> levels;
 
     private void Start() {
         SpawnWaves();
