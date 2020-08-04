@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PlayerShipController : MonoBehaviour
 {
-    [SerializeField] Mover bulletPrefab;
     [SerializeField] GameObject playerExplosion;
+    private ObjectPooler objectPooler;
 
+    // "Damage" event for health bar
     public delegate void Damaged();
     public static event Damaged OnDamage;
 
@@ -18,12 +19,13 @@ public class PlayerShipController : MonoBehaviour
     private const float TILT = .3f;
 
     // Fire
-    private const float FIRERATE = .7f;
+    private const float FIRERATE = .5f;
     private float nextFire = 0f;
 
     private void Start() {
+        objectPooler = FindObjectOfType<ObjectPooler>();
         _rb = GetComponent<Rigidbody>();
-
+        // Set bounds for player movement
         bounds.xMin = -55f;
         bounds.xMax = 55f;
         bounds.yMin = 30f;
@@ -31,23 +33,43 @@ public class PlayerShipController : MonoBehaviour
     }
 
     private void Update() {
-        if (Input.GetKey(KeyCode.Space) && Time.time > nextFire)
-        {
-            nextFire = Time.time + FIRERATE;
-            Mover bullet = Instantiate(bulletPrefab, transform.position + new Vector3(0f, 0f, 4f), Quaternion.identity);
-            bullet.transform.SetParent(transform);
-            bullet.SetSpeed(new Vector3(0f, 0f, 400f));
-        }
+        Fire();
     }
 
     private void FixedUpdate ()
     {
+        Move();
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        // If collided with asteroid create explosion and send signal
+        if(other.tag == Constants.AsteroidTag) {
+            Instantiate(playerExplosion, transform.position, Quaternion.identity);
+            if(OnDamage != null) {
+                OnDamage();
+            }
+        }
+    }
+
+    private void Fire() {
+        // Fire if "nextFire" amount of seconds has passed
+        if (Input.GetKey(KeyCode.Space) && Time.time > nextFire)
+        {
+            nextFire = Time.time + FIRERATE;
+
+            Mover bullet = objectPooler.SpawnFromPool(Constants.BulletPoolTag, transform.position + new Vector3(0f, 0f, 4f), Quaternion.identity).GetComponent<Mover>();
+            bullet.SetSpeed(new Vector3(0f, 0f, 400f));
+        }
+    }
+
+    private void Move() {
         float moveHorizontal = Input.GetAxis ("Horizontal");
         float moveVertical = Input.GetAxis ("Vertical");
 
         Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
         _rb.velocity = movement * SPEED;
 
+        // Clamp player's position in bounds
         _rb.position = new Vector3 
         (
             Mathf.Clamp (_rb.position.x, bounds.xMin, bounds.xMax), 
@@ -56,15 +78,7 @@ public class PlayerShipController : MonoBehaviour
         );
         _rb.position = new Vector3(_rb.position.x, 0.0f, _rb.position.z);
 
+        // Rotate(tilt) player based on horizontal velocity
         _rb.rotation = Quaternion.Euler (0.0f, 0.0f, _rb.velocity.x * -TILT);
-    }
-
-    private void OnTriggerEnter(Collider other) {
-        if(other.tag == Constants.AsteroidTag) {
-            Instantiate(playerExplosion, transform.position, Quaternion.identity);
-            if(OnDamage != null) {
-                OnDamage();
-            }
-        }
     }
 }

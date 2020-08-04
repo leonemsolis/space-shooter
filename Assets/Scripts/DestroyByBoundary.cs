@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class DestroyByBoundary : MonoBehaviour
 {
-
+    // If some object (bullet or asteroid) leaves scene boundary(cube), it'll be destroyed (Deactivated)
     private void OnTriggerExit(Collider other) {
-        Destroy(other.gameObject);
+        other.gameObject.SetActive(false);
     }
 }
