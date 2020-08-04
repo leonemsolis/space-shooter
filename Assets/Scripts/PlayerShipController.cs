@@ -5,13 +5,14 @@ using UnityEngine;
 public class PlayerShipController : MonoBehaviour
 {
     [SerializeField] GameObject playerExplosion;
-    private ObjectPooler objectPooler;
 
     // "Damage" event for health bar
     public delegate void Damaged();
     public static event Damaged OnDamage;
 
     private Rigidbody _rb;
+    private ObjectPooler objectPooler;
+    private Joystick joystick;
 
     // Movement
     private Rect bounds;
@@ -25,6 +26,7 @@ public class PlayerShipController : MonoBehaviour
     private void Start() {
         objectPooler = FindObjectOfType<ObjectPooler>();
         _rb = GetComponent<Rigidbody>();
+        joystick = FindObjectOfType<Joystick>();
         // Set bounds for player movement
         bounds.xMin = -55f;
         bounds.xMax = 55f;
@@ -53,7 +55,7 @@ public class PlayerShipController : MonoBehaviour
 
     private void Fire() {
         // Fire if "nextFire" amount of seconds has passed
-        if (Input.GetKey(KeyCode.Space) && Time.time > nextFire)
+        if (Time.time > nextFire)
         {
             nextFire = Time.time + FIRERATE;
 
@@ -65,6 +67,13 @@ public class PlayerShipController : MonoBehaviour
     private void Move() {
         float moveHorizontal = Input.GetAxis ("Horizontal");
         float moveVertical = Input.GetAxis ("Vertical");
+
+        if(moveHorizontal == 0f) {
+            moveHorizontal = joystick.Horizontal;
+        }
+        if(moveVertical == 0) {
+            moveVertical = joystick.Vertical;
+        }
 
         Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
         _rb.velocity = movement * SPEED;
