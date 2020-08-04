@@ -15,6 +15,7 @@ public class DestroyByContact : MonoBehaviour
         if(other.tag != Constants.BoundaryTag) { // Ignore boundary
             gameObject.SetActive(false);
             
+            AudioManager.PlayAsteroidExplosion();
             Instantiate(asteroidExplosion, transform.position, Quaternion.Euler(-90f, 0f, 0f));
             
             // Destroy any object except player, player will handle collision on his own

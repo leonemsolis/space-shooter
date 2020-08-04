@@ -47,6 +47,7 @@ public class PlayerShipController : MonoBehaviour
         // If collided with asteroid create explosion and send signal
         if(other.tag == Constants.AsteroidTag) {
             Instantiate(playerExplosion, transform.position, Quaternion.identity);
+            AudioManager.PlayPlayerExplosion();
             if(OnDamage != null) {
                 OnDamage();
             }
@@ -59,6 +60,7 @@ public class PlayerShipController : MonoBehaviour
         {
             nextFire = Time.time + FIRERATE;
 
+            AudioManager.PlayShoot();
             Mover bullet = objectPooler.SpawnFromPool(Constants.BulletPoolTag, transform.position + new Vector3(0f, 0f, 4f), Quaternion.identity).GetComponent<Mover>();
             bullet.SetSpeed(new Vector3(0f, 0f, 400f));
         }
