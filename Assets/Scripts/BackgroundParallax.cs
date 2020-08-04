@@ -5,7 +5,7 @@ using UnityEngine;
 public class BackgroundParallax : MonoBehaviour
 {
     private float offset = 0f;
-    private const float SPEED = .3f;
+    private const float SPEED = 2.1f;
     private Renderer rend;
 
     private void Start() {

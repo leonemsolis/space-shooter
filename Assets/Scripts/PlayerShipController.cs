@@ -18,7 +18,7 @@ public class PlayerShipController : MonoBehaviour
     private const float TILT = .3f;
 
     // Fire
-    private const float FIRERATE = .25f;
+    private const float FIRERATE = .7f;
     private float nextFire = 0f;
 
     private void Start() {
