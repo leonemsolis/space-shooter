@@ -5,6 +5,10 @@ using UnityEngine;
 public class PlayerShipController : MonoBehaviour
 {
     [SerializeField] Mover bulletPrefab;
+    [SerializeField] GameObject playerExplosion;
+
+    public delegate void Damaged();
+    public static event Damaged OnDamage;
 
     private Rigidbody _rb;
 
@@ -22,7 +26,7 @@ public class PlayerShipController : MonoBehaviour
 
         bounds.xMin = -55f;
         bounds.xMax = 55f;
-        bounds.yMin = -10f;
+        bounds.yMin = 30f;
         bounds.yMax = 200f;
     }
 
@@ -32,7 +36,7 @@ public class PlayerShipController : MonoBehaviour
             nextFire = Time.time + FIRERATE;
             Mover bullet = Instantiate(bulletPrefab, transform.position + new Vector3(0f, 0f, 4f), Quaternion.identity);
             bullet.transform.SetParent(transform);
-            bullet.SetSpeed(400f);
+            bullet.SetSpeed(new Vector3(0f, 0f, 400f));
         }
     }
 
@@ -53,5 +57,14 @@ public class PlayerShipController : MonoBehaviour
         _rb.position = new Vector3(_rb.position.x, 0.0f, _rb.position.z);
 
         _rb.rotation = Quaternion.Euler (0.0f, 0.0f, _rb.velocity.x * -TILT);
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        if(other.tag == Constants.AsteroidTag) {
+            Instantiate(playerExplosion, transform.position, Quaternion.identity);
+            if(OnDamage != null) {
+                OnDamage();
+            }
+        }
     }
 }

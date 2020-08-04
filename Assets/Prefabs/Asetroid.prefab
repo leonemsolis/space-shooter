@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 2777642236271442320}
   m_Layer: 0
   m_Name: Asetroid
-  m_TagString: Untagged
+  m_TagString: Asteroid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -169,8 +169,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   asteroidExplosion: {fileID: 1601470159873400571, guid: 6417d20b72753461b82d90d5ee108d40,
     type: 3}
-  playerExplosion: {fileID: 1601470159873400571, guid: bdc489e3e943048a4b5231ff4b1d1133,
-    type: 3}
 --- !u!114 &2777642236271442320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,4 +181,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 029d0f0e23f644c2f8ee712e416b8dd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: -40

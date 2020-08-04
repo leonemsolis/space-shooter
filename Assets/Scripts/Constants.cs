@@ -2,6 +2,7 @@
 {
     public const string PlayerTag = "Player";
     public const string BoundaryTag = "Boundary";
+    public const string AsteroidTag = "Asteroid";
 
     public const int LevelSelectionSceneBuildIndex = 1;
     public const int PlaySceneBuildIndex = 2;
