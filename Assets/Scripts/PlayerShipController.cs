@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerShipController : MonoBehaviour
 {
-    [SerializeField] Mover bulletPrefab;
+    [SerializeField] GameObject bulletPrefab;
 
     private Rigidbody _rb;
 
@@ -30,7 +30,8 @@ public class PlayerShipController : MonoBehaviour
         if (Input.GetKey(KeyCode.Space) && Time.time > nextFire)
         {
             nextFire = Time.time + FIRERATE;
-            Instantiate(bulletPrefab, transform.position + new Vector3(0f, 0f, 4f), Quaternion.identity);
+            GameObject bullet = Instantiate(bulletPrefab, transform.position + new Vector3(0f, 0f, 4f), Quaternion.identity);
+            bullet.transform.SetParent(transform);
         }
     }
 

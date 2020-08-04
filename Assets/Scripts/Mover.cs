@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Mover : MonoBehaviour
 {
-    private const float SPEED = 400f;
+    [SerializeField] float SPEED;
     private Rigidbody _rb;
     
     private void Start()
