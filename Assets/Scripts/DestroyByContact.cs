@@ -29,4 +29,10 @@ public class DestroyByContact : MonoBehaviour
             }
         }
     }
+
+    // Destroy command
+    public void DestoryOnVictory() {
+        gameObject.SetActive(false);
+        Instantiate(asteroidExplosion, transform.position, Quaternion.Euler(-90f, 0f, 0f));
+    }
 }

@@ -16,6 +16,8 @@ public class GameController : MonoBehaviour
     // Curent level info
     private LevelInfo info;
 
+    private bool running = true;
+
     private void Start() {
         objectPooler = FindObjectOfType<ObjectPooler>();
         // Get info that player selected, using level selection
@@ -31,23 +33,31 @@ public class GameController : MonoBehaviour
 
     public void LevelFailed() {
         // Return to level selection scene if game is over
-        GetComponent<SceneChanger>().ChangeToLevelSelectionScene();
+        GetComponent<SceneChanger>().ChangeToLoseScene();
     }
 
     public void LevelCompleted() {
-        // Mark current level as completed, open next level 
+        // Stop spawning asteroids
+        running = false;
+        // Destroy all asteroids in the scene
+        foreach(DestroyByContact asteroid in FindObjectsOfType<DestroyByContact>()) {
+            asteroid.DestoryOnVictory();
+        }
+        // Mark current level as completed, open next level if closed
         PlayerPrefs.SetInt(Constants.LevelSelectionPrefix+info.level.ToString(), 2);
-        PlayerPrefs.SetInt(Constants.LevelSelectionPrefix+(info.level+1).ToString(), 1);
+        if(PlayerPrefs.GetInt(Constants.LevelSelectionPrefix+(info.level+1).ToString(), 0) == 0) {
+            PlayerPrefs.SetInt(Constants.LevelSelectionPrefix+(info.level+1).ToString(), 1);
+        }
         PlayerPrefs.Save();
         // Return to level selection scene
-        GetComponent<SceneChanger>().ChangeToLevelSelectionScene();
+        GetComponent<SceneChanger>().ChangeToWinScene();
     }
 
 
     private IEnumerator SpawnAsteroids() {
         // Wait a few seconds
         yield return new WaitForSeconds(START_WAIT);
-        while (true)
+        while (running)
         {
             // Pick random x coordinate within viewport
             Vector3 spawnPosition = new Vector3 (Random.Range (-50f, 50f), 0f, 240f);

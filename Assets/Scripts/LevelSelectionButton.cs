@@ -43,7 +43,7 @@ public class LevelSelectionButton : MonoBehaviour
             PlayerPrefs.SetInt(Constants.CurrentlySelectedLevel, level);
             PlayerPrefs.Save();
             // Goto GameScene
-            GetComponent<SceneChanger>().ChangeToPlayScene();
+            FindObjectOfType<SceneChanger>().ChangeToPlayScene();
         }
     }
 }
