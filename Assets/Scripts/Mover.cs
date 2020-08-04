@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class Mover : MonoBehaviour
 {
-    [SerializeField] float SPEED;
-    private Rigidbody _rb;
-    
-    private void Start()
-    {
-        _rb = GetComponent<Rigidbody>();
-        _rb.velocity = transform.forward * SPEED;
+    public void SetSpeed(float newSpeed) {
+        GetComponent<Rigidbody>().velocity = transform.forward * newSpeed;
     }
 }

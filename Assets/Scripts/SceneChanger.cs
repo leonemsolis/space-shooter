@@ -8,4 +8,8 @@ public class SceneChanger : MonoBehaviour
     public void ChangeToPlayScene() {
         SceneManager.LoadScene(Constants.PlaySceneBuildIndex);
     }
+
+    public void ChangeToLevelSelectionScene() {
+        SceneManager.LoadScene(Constants.LevelSelectionSceneBuildIndex);
+    }
 }

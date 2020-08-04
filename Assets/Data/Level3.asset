@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e57512f90cf054ad8842324df0e06244, type: 3}
-  m_Name: Level1
+  m_Name: Level3
   m_EditorClassIdentifier: 
-  level: 1
-  target: 10
-  minAsteroidSpeed: -50
-  maxAsteroidSpeed: -100
-  minRespawnTime: 0.5
-  maxRespawnTime: 1
+  level: 3
+  target: 30
+  minAsteroidSpeed: -150
+  maxAsteroidSpeed: -200
+  minRespawnTime: 0.1
+  maxRespawnTime: 0.6
